@@ -38,8 +38,20 @@ public class Main {
      *  output: String
      * */
     private static String generateSecretNumber() {
+        Random r = new Random();
+        Set<Integer> numSet = new HashSet<Integer>();
 
-        return "";
+        while (numSet.size() < 3) {
+            numSet.add(r.nextInt(10)); // 0~9까지
+        }
+
+        StringBuilder numStr = new StringBuilder(); //
+        for (Integer num : numSet) {
+            numStr.append(num); // 숫자 문자열 추가
+        }
+
+        return numStr.toString(); // String으로 변환
+
     }
 
     /*
@@ -49,7 +61,25 @@ public class Main {
      *  ex) 0S0B / 1S2B
      * */
     private static String checkGuess(String guess, String secretNumber) {
-        return "";
+
+        int sCount = 0;
+        int bCount = 0;
+
+        // 숫자의 값과 위치가 모두 일치하면 S, 숫자의 값은 일치하지만 위치가 틀렸으면 B
+        for (int i = 0; i < secretNumber.length(); i++) {
+            char ch = guess.charAt(i);
+
+            if (ch == secretNumber.charAt(i)) {
+                sCount++;
+            } else if (secretNumber.indexOf(ch) != -1) {
+                bCount++;
+            }
+        }
+        // sCount가 1, 2, 3인 경우 sCount 값만 반환
+        if (sCount > 0 && bCount == 0) {
+            return sCount + "S";
+        }
+        return bCount + "B" + sCount + "S";
     }
 
 }
